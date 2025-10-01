@@ -1,0 +1,10 @@
+<resources>
+    <!-- App Name -->
+    <string name="app_name">RonaldGuiyabLab4</string>
+
+    <!-- Activity Titles -->
+    <string name="title_activity_main">Home</string>
+    <string name="title_activity_explore">Explore</string>
+    <string name="title_activity_gallery">Gallery</string>
+    <string name="title_activity_ticketing">Ticketing Service</string>
+</resources>
