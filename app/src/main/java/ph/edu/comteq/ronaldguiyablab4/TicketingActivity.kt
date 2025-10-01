@@ -78,9 +78,11 @@ fun TicketingScreen(onBackClick: () -> Unit = {}) {
                         .height(230.dp)
                         .background(Color.Black.copy(alpha = 0.7f))
                 )
+
                 Text(
                     "Official\nTicketing Service",
                     fontSize = 32.sp,
+                    fontFamily = PlayfairDisplay,
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     lineHeight = 36.sp
@@ -101,7 +103,10 @@ fun TicketingScreen(onBackClick: () -> Unit = {}) {
                     title = null,
                     showModeToggle = false,
                     headline = {
-                        Text("1. Date to Visit", fontSize = 26.sp)
+                        Text("1. Date to Visit",
+                            fontSize = 26.sp,
+                            fontFamily = PlayfairDisplay,
+                            )
                     },
                     colors = DatePickerDefaults.colors(
                         titleContentColor = Color(0xFFD29F1B),
@@ -132,6 +137,7 @@ fun TicketingScreen(onBackClick: () -> Unit = {}) {
             Text(
                 "Total: P500",
                 fontSize = 26.sp,
+                fontFamily = PlayfairDisplay,
                 color = Color.Black
             )
             Button(
