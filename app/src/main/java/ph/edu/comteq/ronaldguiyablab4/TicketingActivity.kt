@@ -130,7 +130,7 @@ fun TicketingScreen(onBackClick: () -> Unit = {}) {
                 .fillMaxWidth()
                 .height(80.dp)
                 .background(Color(0xFFD29F1B))
-                .padding(horizontal = 20.dp),
+                .padding(horizontal = 21.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
