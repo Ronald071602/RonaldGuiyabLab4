@@ -18,7 +18,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,6 +35,12 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+val Optima = FontFamily(
+    Font(R.font.optima)
+)
+val PlayfairDisplay = FontFamily(
+    Font(R.font.playfairdisplayregular)
+)
 @Composable
 fun Homepage(modifier: Modifier = Modifier) {
     val context = LocalContext.current
@@ -47,15 +52,15 @@ fun Homepage(modifier: Modifier = Modifier) {
     ) {
         // Background image
         Image(
-            painter = painterResource(id = R.drawable.louvre), // Replace with your image name
+            painter = painterResource(id = R.drawable.louvre),
             contentDescription = "Louvre Museum",
             modifier = Modifier
                 .align(Alignment.Center)
-                .size(500.dp), // Adjust size as needed
+                .size(500.dp),
             contentScale = ContentScale.Fit
         )
 
-        // Dark overlay for better text readability
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -70,7 +75,7 @@ fun Homepage(modifier: Modifier = Modifier) {
         ) {
             // Logo at the top
             Image(
-                painter = painterResource(id = R.drawable.logo), // Replace with your logo
+                painter = painterResource(id = R.drawable.logo),
                 contentDescription = "Gallery Logo",
                 modifier = Modifier
                     .size(140.dp)
@@ -84,6 +89,7 @@ fun Homepage(modifier: Modifier = Modifier) {
                 text = "Experience Art",
                 fontSize = 32.sp,
                 color = Color.White,
+                fontFamily = PlayfairDisplay,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
@@ -93,6 +99,7 @@ fun Homepage(modifier: Modifier = Modifier) {
                 text = "We are thrilled to invite you to join us for\nan extraordinary event that will immerse\nyou in the world of art.",
                 fontSize = 16.sp,
                 color = Color.White,
+                fontFamily = Optima,
                 textAlign = TextAlign.Center,
                 lineHeight = 24.sp,
                 modifier = Modifier.padding(bottom = 40.dp)
