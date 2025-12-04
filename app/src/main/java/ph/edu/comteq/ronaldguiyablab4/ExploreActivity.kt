@@ -110,7 +110,7 @@ fun ExplorePage() {
             // Visit Gallery Button
             Button(
                 onClick = {
-                    val intent = Intent(context, GalleryActivity::class.java)
+                    val intent = Intent(context, ArtistsActivity::class.java)
                     context.startActivity(intent)
                 },
                 modifier = Modifier.padding(vertical = 10.dp),
