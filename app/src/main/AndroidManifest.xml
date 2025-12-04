@@ -39,6 +39,13 @@
             android:label="Artists"
             android:theme="@style/Theme.RonaldGuiyabLab4" />
 
+        <!-- Exhibit Activity (detail page when clicking an artwork image) -->
+        <activity
+            android:name=".ExhibitActivity"
+            android:exported="true"
+            android:label="Exhibit"
+            android:theme="@style/Theme.RonaldGuiyabLab4" />
+
         <!-- Main Activity (Launcher) -->
         <activity
             android:name=".MainActivity"

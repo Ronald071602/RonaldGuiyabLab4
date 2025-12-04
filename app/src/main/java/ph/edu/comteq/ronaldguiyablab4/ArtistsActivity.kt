@@ -1,5 +1,6 @@
 package ph.edu.comteq.ronaldguiyablab4
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -40,11 +42,20 @@ data class Artist(
     val bornAt: String,
     val diedAt: String,
     val avatar: Int,
-    val artworks: List<Int>
+    val artworks: List<ArtworkDetail>
+)
+
+data class ArtworkDetail(
+    val imageRes: Int,
+    val title: String,
+    val years: String,
+    val bornAt: String,
+    val comment: String
 )
 
 @Composable
 fun ArtistsPage() {
+    val context = LocalContext.current
     val searchQuery = remember { mutableStateOf(TextFieldValue("")) }
 
     // Track selected tab
@@ -57,9 +68,27 @@ fun ArtistsPage() {
             diedAt = "1519",
             avatar = R.drawable.leonardo_da_vinci,
             artworks = listOf(
-                R.drawable.mona_lisa,
-                R.drawable.lady_ermine,
-                R.drawable.litta_madonna
+                ArtworkDetail(
+                    imageRes = R.drawable.mona_lisa,
+                    title = "Mona Lisa",
+                    years = "c. 1503-19",
+                    bornAt = "Florence, Italy",
+                    comment = "The best known, the most visited, the most written about, the most parodied work of art in the world."
+                ),
+                ArtworkDetail(
+                    imageRes = R.drawable.lady_ermine,
+                    title = "Lady Ermine",
+                    years = "c. 1489-91",
+                    bornAt = "Milan, Italy",
+                    comment = "A captivating image of exquisite elegance that showcases Leonardo's incomparable creative mind."
+                ),
+                ArtworkDetail(
+                    imageRes = R.drawable.litta_madonna,
+                    title = "Litta Madonna",
+                    years = "c. 1490",
+                    bornAt = "Italy",
+                    comment = "Highlights the Renaissance devotion to motherhood with serene intimacy."
+                )
             )
         ),
         Artist(
@@ -68,9 +97,27 @@ fun ArtistsPage() {
             diedAt = "1564",
             avatar = R.drawable.michelangelo,
             artworks = listOf(
-                R.drawable.david,
-                R.drawable.torment_of_saint_anthony,
-                R.drawable.delphic_sibyl
+                ArtworkDetail(
+                    imageRes = R.drawable.david,
+                    title = "David",
+                    years = "1501-04",
+                    bornAt = "Florence, Italy",
+                    comment = "Michelangelo's marble masterpiece capturing heroic resolve before facing Goliath."
+                ),
+                ArtworkDetail(
+                    imageRes = R.drawable.torment_of_saint_anthony,
+                    title = "The Torment of Saint Anthony",
+                    years = "c. 1487",
+                    bornAt = "Florence, Italy",
+                    comment = "An early painting filled with vivid creatures swirling around the steadfast saint."
+                ),
+                ArtworkDetail(
+                    imageRes = R.drawable.delphic_sibyl,
+                    title = "Delphic Sibyl",
+                    years = "1508-12",
+                    bornAt = "Rome, Italy",
+                    comment = "A dynamic fresco figure from the Sistine Chapel ceiling foretelling divine wisdom."
+                )
             )
         ),
         Artist(
@@ -79,9 +126,27 @@ fun ArtistsPage() {
             diedAt = "1918",
             avatar = R.drawable.gustav_klimt,
             artworks = listOf(
-                R.drawable.adele_bloch_bauer,
-                R.drawable.lady_with_fan,
-                R.drawable.the_kiss
+                ArtworkDetail(
+                    imageRes = R.drawable.adele_bloch_bauer,
+                    title = "Portrait of Adele Bloch-Bauer I",
+                    years = "1907",
+                    bornAt = "Vienna, Austria",
+                    comment = "Gold leaf opulence that exemplifies Klimt's Vienna Secession glamour."
+                ),
+                ArtworkDetail(
+                    imageRes = R.drawable.lady_with_fan,
+                    title = "Lady with Fan",
+                    years = "1918",
+                    bornAt = "Vienna, Austria",
+                    comment = "A late work mixing Japanese motifs with Klimt's ornamental patterns."
+                ),
+                ArtworkDetail(
+                    imageRes = R.drawable.the_kiss,
+                    title = "The Kiss",
+                    years = "1907-08",
+                    bornAt = "Vienna, Austria",
+                    comment = "Iconic embrace wrapped in mosaic shapes representing unity of love."
+                )
             )
         )
     )
@@ -188,14 +253,27 @@ fun ArtistsPage() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Only show artist list if tab = Artists
+
             if (selectedTab == "Artists") {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(24.dp),
                     modifier = Modifier.fillMaxSize()
                 ) {
                     items(artists) { artist ->
-                        ArtistItem(artist)
+                        ArtistItem(
+                            artist = artist,
+                            onArtworkClick = { art ->
+                                val intent = Intent(context, ExhibitActivity::class.java).apply {
+                                    putExtra(ExhibitActivity.EXTRA_IMAGE, art.imageRes)
+                                    putExtra(ExhibitActivity.EXTRA_TITLE, art.title)
+                                    putExtra(ExhibitActivity.EXTRA_YEARS, art.years)
+                                    putExtra(ExhibitActivity.EXTRA_BORN_AT, art.bornAt)
+                                    putExtra(ExhibitActivity.EXTRA_COMMENT, art.comment)
+                                    putExtra(ExhibitActivity.EXTRA_SELECTED_TITLE, art.title)
+                                }
+                                context.startActivity(intent)
+                            }
+                        )
                     }
                 }
             } else {
@@ -217,7 +295,10 @@ fun ArtistsPage() {
 }
 
 @Composable
-fun ArtistItem(artist: Artist) {
+fun ArtistItem(
+    artist: Artist,
+    onArtworkClick: (ArtworkDetail) -> Unit
+) {
     Column {
         // Artist Name and Avatar
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -249,16 +330,17 @@ fun ArtistItem(artist: Artist) {
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Artworks horizontally
+
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(artist.artworks) { art ->
                 Image(
-                    painter = painterResource(id = art),
-                    contentDescription = null,
+                    painter = painterResource(id = art.imageRes),
+                    contentDescription = art.title,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .size(width = 110.dp, height = 110.dp)
                         .clip(RoundedCornerShape(16.dp))
+                        .clickable { onArtworkClick(art) }
                 )
             }
         }
